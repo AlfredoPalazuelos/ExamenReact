@@ -1,9 +1,19 @@
 import React from 'react';
+import { Carousel } from 'react-bootstrap';
 
 class Ejercicio3 extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { img: '', titulo: '', autor: '', tableData: [] };
   }
+
+  async componentDidMount() {
+    const response= await fetch('https://www.etnassoft.com/api/v1/get/?id=589&callback=?');
+    const responseData= await response.json();
+    this.setState({tableData: responseData});
+      }
+    
+  
 
   render() {
     return (
@@ -44,6 +54,21 @@ class Ejercicio3 extends React.Component {
             <b> - 1 punto</b>
           </li>
         </ol>
+        <Carousel>
+          {this.state.tableData.map((item) => {
+            return (
+              <Carousel.Item>
+                <img src={item.cover} />
+                <Carousel.Caption>
+                  <h3>{item.title}</h3>
+                  <p>
+                    {item.author}
+                  </p>
+                </Carousel.Caption>
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
       </div>
     );
   }
